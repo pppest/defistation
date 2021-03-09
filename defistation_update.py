@@ -3,6 +3,7 @@
 import dload
 import json
 import time
+import os
 
 # vatious settings
 bnb_contract = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
@@ -11,6 +12,7 @@ pancake_lp = "0x40257481f09db2211a3274b34554bbb00b0a7fb1"
 bnb_price_url = "https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT"
 cred_contract = "0x571D0B55fe30eb1F6E68e8799F181c46De6B0059"
 thugs_contract = "0xe10e9822a5de22f8761919310dda35cd997d63c0"
+
 # LP contract: token contract - I left out wbnb as it is the same in all pairs.
 lp_list = {
     "0xce7b1bc3ff9115b64bf4d6b1549f8339d02762f4": "0x8ff795a6f4d97e7887c79bea79aba5cc76444adf", # bch
@@ -142,14 +144,13 @@ data = {
         }, 
     "test": false}
 
+result = json.dumps(data) 
 
 # write defistation curl info
-result = json.dumps(data) 
+
 f = open("defistationcurl.sh", "w")
 f.write(curl_cmd + "'" + result + "'" + " && : || curl -s -X POST https://api.telegram.org/bot716244131:AAEeUjyMK3P9U7DRjNGLTYkYVBvx5i8mDjg/sendMessage -d text='defistation error' -d chat_id=-259573637")
 f.close()
-
-
 
 # test info
 print()
@@ -162,10 +163,8 @@ print("Total BNB in contract: ",total_bnb)
 print()
 print()
 
-
-
-
 # execute curl
 #result = json.dumps(data) 
-#os.system(curl_cmd  +"'" + result + "' > /home/miklo/defistation//curloutput.log  && date > ./last_update.log || sh send_msg.sh 'defistation error'")
+cmd_total = curl_cmd  + "'" + result + "'" # > ./curloutput.log  && date > ./last_update.log || sh send_msg.sh 'defistation error'"
+#os.system(cmd_total)
 
